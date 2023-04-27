@@ -31,7 +31,7 @@ async function getTrendingMoviesPreview() {
 
 async function getCategoriesPreview() {
   const res = await fetch(
-    "https://api.themoviedb.org/3/genre/movie/list?api_key=" + API_KEY
+    "https://api.themoviedb.org/3/genre/movie/list?api_key=" + API_KEY+"&language=es"
   );
   const data = await res.json();
 
@@ -46,9 +46,10 @@ async function getCategoriesPreview() {
     );
     const categoryContainer = document.createElement("div");
     categoryContainer.classList.add("category-container");
-
+    
     const titulo = document.createElement("h3");
     titulo.textContent = genre.name;
+    titulo.setAttribute("id", "id"+genre.id);
     titulo.classList.add("category-title");
 
     categoryContainer.appendChild(titulo);
