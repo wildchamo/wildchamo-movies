@@ -1,11 +1,15 @@
 import { API_KEY } from "./dev.js";
 
-async function getTrendingMoviesPreview() {
-  const res = await fetch(
-    "https://api.themoviedb.org/3/trending/movie/week?api_key=" + API_KEY
-  );
-  const data = await res.json();
+const api = axios.create({
+  baseURL: "https://api.themoviedb.org/3/",
+  params: {
+    api_key: API_KEY,
+    language: "es-ES",
+  },
+});
 
+async function getTrendingMoviesPreview() {
+  const { status, data } = await api("trending/movie/week");
   const movies = data.results;
   console.log(movies);
 
@@ -30,13 +34,9 @@ async function getTrendingMoviesPreview() {
 }
 
 async function getCategoriesPreview() {
-  const res = await fetch(
-    "https://api.themoviedb.org/3/genre/movie/list?api_key=" + API_KEY+"&language=es"
-  );
-  const data = await res.json();
+  const { status, data } = await api("genre/movie/list");
 
-
-  const genres= data.genres;
+  const genres = data.genres;
 
   console.log(genres);
 
@@ -46,10 +46,10 @@ async function getCategoriesPreview() {
     );
     const categoryContainer = document.createElement("div");
     categoryContainer.classList.add("category-container");
-    
+
     const titulo = document.createElement("h3");
     titulo.textContent = genre.name;
-    titulo.setAttribute("id", "id"+genre.id);
+    titulo.setAttribute("id", "id" + genre.id);
     titulo.classList.add("category-title");
 
     categoryContainer.appendChild(titulo);
